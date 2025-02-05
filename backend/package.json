@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "dev": "tsx watch --env-file=.env ./src/server.ts",
-    "build": "tsc && node dist/server.js",
+    "build": "tsc && node dist/server.ts",
     "test": "tsx watch --env-file=.env --test ./src/server.ts"
   },
   "repository": {
