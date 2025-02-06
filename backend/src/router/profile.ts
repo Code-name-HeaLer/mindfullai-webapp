@@ -1,5 +1,5 @@
-import { http } from "../server";
-http.get("/profile", (req, res) => {
+import { router } from "../server";
+router.get("/profile", (req, res) => {
 	if (!req.isAuthenticated()) {
 		return res.redirect("/");
 	}
