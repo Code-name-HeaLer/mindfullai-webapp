@@ -3,5 +3,5 @@ router.get("/profile", (req, res) => {
 	if (!req.isAuthenticated()) {
 		return res.redirect("/");
 	}
-	res.sendFile("pages/profile.html", { root: "../frontend" });
+	res.sendFile("/pages/profile.html");
 });
