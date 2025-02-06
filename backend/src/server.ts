@@ -1,5 +1,8 @@
 import express from "express";
 import { serverSession } from "./middleware";
+import { indexRouter } from "./router";
+import { profileRouter } from "./router/profile";
+import { chatRouter } from "./router/chat";
 import passport from "passport";
 import path from "path";
 
@@ -8,6 +11,10 @@ export const router = express.Router();
 
 http.use(express.static(path.join(process.cwd(), "../frontend/pages")));
 http.use(express.static(path.join(process.cwd(), "../frontend/")));
+http.use(router);
+http.use(indexRouter);
+http.use(profileRouter);
+http.use(chatRouter);
 http.use(serverSession);
 http.use(passport.initialize());
 http.use(passport.session());

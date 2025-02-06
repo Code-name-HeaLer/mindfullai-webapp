@@ -1,7 +1,8 @@
-import { router } from "../server";
-router.get("/", (req, res) => {
+import { Router } from "express";
+export const indexRouter = Router();
+indexRouter.get("/", (req, res) => {
 	res.sendFile("/pages/index.html");
 });
-router.get("/styles", (req, res) => {
-	res.sendFile("/css/style.css", { root: "../frontend" });
+indexRouter.get("/styles", (req, res) => {
+	res.sendFile("/css/style.css");
 });

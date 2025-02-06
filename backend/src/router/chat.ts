@@ -1,4 +1,5 @@
-import { router } from "../server";
-router.get("/chat", (req, res) => {
-	res.sendFile("/pages/chat.html");
+import Router from "express";
+export const chatRouter = Router();
+chatRouter.get("/chat", (req, res) => {
+	res.redirect("/pages/chat.html");
 });
