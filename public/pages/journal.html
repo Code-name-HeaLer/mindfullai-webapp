@@ -12,8 +12,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/css" />
+    <link rel="stylesheet" href="/css">
     <style>
+      /* Add all the CSS styles here */
       .notebook {
         perspective: 1000px;
         transform-style: preserve-3d;
@@ -135,7 +136,7 @@
         width: 100px;
         height: 100px;
         border-radius: 50%;
-        background: rgba(139, 69, 19, 0.1);
+        background: rgba(240, 9, 9, 0.1);
         pointer-events: none;
       }
 
@@ -149,6 +150,53 @@
         bottom: 60px;
         left: 120px;
         transform: scale(0.8) rotate(45deg);
+      }
+
+      .saved-journals-box {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        width: 300px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .saved-journals-box h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #2d3748;
+      }
+
+      .saved-journal-item {
+        padding: 8px;
+        border-bottom: 1px solid #e2e8f0;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      .saved-journal-item:hover {
+        background: #f7fafc;
+      }
+
+      .saved-journal-item:last-child {
+        border-bottom: none;
+      }
+
+      .saved-journal-item h4 {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #4a5568;
+      }
+
+      .saved-journal-item p {
+        font-size: 0.875rem;
+        color: #718096;
+        margin-top: 4px;
       }
     </style>
   </head>
@@ -172,6 +220,7 @@
             <a href="/chat">AI Bot</a>
             <a href="/profile">Profile</a>
             <div
+              id="user-initials"
               class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-semibold"
             >
               JS
@@ -189,9 +238,11 @@
           >
             <i class="fas fa-book text-indigo-600 text-xl"></i>
           </div>
-          <h1 class="text-2xl font-semibold text-gray-800">My Journal</h1>
+          <h1 id="journal-title" class="text-2xl font-semibold text-gray-800">
+            My Journal
+          </h1>
         </div>
-        <button class="save-button">
+        <button class="save-button" id="save-button">
           <i class="fas fa-save mr-2"></i>Save Entry
         </button>
       </div>
@@ -220,14 +271,16 @@
 
             <!-- Date field -->
             <input
+              id="journal-date"
               type="text"
               class="date-field ml-8 mt-4"
-              value="Thursday, February 6, 2025"
+              value=""
               readonly
             />
 
             <!-- Journal content -->
             <textarea
+              id="journal-content"
               class="journal-content"
               placeholder="Dear Diary..."
             ></textarea>
@@ -236,25 +289,103 @@
       </div>
     </div>
 
+    <!-- Saved Journals Box -->
+    <div class="saved-journals-box">
+      <h3>Saved Journals</h3>
+      <div id="saved-journals-list"></div>
+    </div>
+
     <script>
-      // Get today's date in a nice format
-      function formatDate(date) {
-        const options = {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        };
-        return date.toLocaleDateString("en-US", options);
+      // Simulated data object
+      const journalData = {
+        user: {
+          name: "sasmita",
+          initials: "SD",
+          status: "Member",
+        },
+        journal: {
+          title: "My Journal",
+          date: "monday, feb 8, 2025",
+          content: "Today was a great day! I learned a lot about mindfulness.",
+        },
+      };
+
+      // Function to update the UI with dynamic data
+      function updateJournalUI(data) {
+        // Update user profile
+        document.getElementById("user-initials").textContent =
+          data.user.initials;
+
+        // Update journal title
+        document.getElementById("journal-title").textContent =
+          data.journal.title;
+
+        // Update journal date
+        document.getElementById("journal-date").value = data.journal.date;
+
+        // Update journal content
+        document.getElementById("journal-content").value = data.journal.content;
       }
 
-      // Set today's date
-      document.querySelector(".date-field").value = formatDate(new Date());
+      // Function to save journal entry to local storage
+      function saveJournalEntry() {
+        const title = document.getElementById("journal-title").textContent;
+        const date = document.getElementById("journal-date").value;
+        const content = document.getElementById("journal-content").value;
 
-      // Save functionality
+        const entry = { title, date, content };
+
+        // Get existing entries from local storage
+        const savedEntries = JSON.parse(localStorage.getItem("journals")) || [];
+
+        // Add new entry
+        savedEntries.push(entry);
+
+        // Save back to local storage
+        localStorage.setItem("journals", JSON.stringify(savedEntries));
+
+        // Refresh saved journals list
+        displaySavedJournals();
+      }
+
+      // Function to display saved journals
+      function displaySavedJournals() {
+        const savedEntries = JSON.parse(localStorage.getItem("journals")) || [];
+        const savedJournalsList = document.getElementById("saved-journals-list");
+
+        // Clear existing list
+        savedJournalsList.innerHTML = "";
+
+        // Add each entry to the list
+        savedEntries.forEach((entry, index) => {
+          const journalItem = document.createElement("div");
+          journalItem.className = "saved-journal-item";
+          journalItem.innerHTML = `
+            <h4>${entry.title}</h4>
+            <p>${entry.date}</p>
+          `;
+          journalItem.addEventListener("click", () => loadJournalEntry(index));
+          savedJournalsList.appendChild(journalItem);
+        });
+      }
+
+      // Function to load a saved journal entry
+      function loadJournalEntry(index) {
+        const savedEntries = JSON.parse(localStorage.getItem("journals")) || [];
+        const entry = savedEntries[index];
+
+        // Update the UI with the selected entry
+        document.getElementById("journal-title").textContent = entry.title;
+        document.getElementById("journal-date").value = entry.date;
+        document.getElementById("journal-content").value = entry.content;
+      }
+
+      // Save button event listener
       document
-        .querySelector(".save-button")
+        .getElementById("save-button")
         .addEventListener("click", function () {
+          saveJournalEntry();
+
           // Add save animation
           this.innerHTML = '<i class="fas fa-check mr-2"></i>Saved!';
           this.style.backgroundColor = "#059669";
@@ -271,6 +402,10 @@
         this.style.height = "auto";
         this.style.height = this.scrollHeight + "px";
       });
+
+      // Initialize the journal
+      updateJournalUI(journalData);
+      displaySavedJournals();
     </script>
   </body>
 </html>

@@ -79,53 +79,7 @@
       <!-- Chat History Tabs -->
       <div class="flex-1 overflow-y-auto custom-scrollbar">
         <div class="p-2 text-sm text-gray-500 font-medium">Recent Chats</div>
-        <div id="chat-tabs" class="space-y-1">
-          <div
-            class="chat-tab active p-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3"
-          >
-            <div
-              class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center"
-            >
-              <i class="fas fa-comment text-indigo-600"></i>
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="text-sm font-medium text-gray-900 truncate">
-                Current Session
-              </div>
-              <div class="text-xs text-gray-500">Started 2 minutes ago</div>
-            </div>
-          </div>
-          <div
-            class="chat-tab p-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3"
-          >
-            <div
-              class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center"
-            >
-              <i class="fas fa-comment text-indigo-600"></i>
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="text-sm font-medium text-gray-900 truncate">
-                Evening Check-in
-              </div>
-              <div class="text-xs text-gray-500">Yesterday</div>
-            </div>
-          </div>
-          <div
-            class="chat-tab p-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3"
-          >
-            <div
-              class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center"
-            >
-              <i class="fas fa-comment text-indigo-600"></i>
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="text-sm font-medium text-gray-900 truncate">
-                Morning Reflection
-              </div>
-              <div class="text-xs text-gray-500">2 days ago</div>
-            </div>
-          </div>
-        </div>
+        <div id="chat-tabs" class="space-y-1"></div>
       </div>
 
       <!-- User Profile Section -->
@@ -133,12 +87,17 @@
         <div class="flex items-center gap-3">
           <div
             class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-semibold"
+            id="user-initials"
           >
             JS
           </div>
           <div class="flex-1 min-w-0">
-            <div class="text-sm font-medium text-gray-900">John Smith</div>
-            <div class="text-xs text-gray-500">Premium Member</div>
+            <div class="text-sm font-medium text-gray-900" id="user-name">
+              John Smith
+            </div>
+            <div class="text-xs text-gray-500" id="user-status">
+              Premium Member
+            </div>
           </div>
           <button class="text-gray-400 hover:text-gray-600">
             <i class="fas fa-cog"></i>
@@ -160,7 +119,7 @@
                 <i class="fas fa-comments text-indigo-600 text-xl"></i>
               </div>
               <div>
-                <h1 class="text-xl font-semibold text-gray-800">
+                <h1 class="text-xl font-semibold text-gray-800" id="chat-title">
                   Current Session
                 </h1>
                 <p class="text-sm text-gray-500">Here to support you 24/7</p>
@@ -182,21 +141,7 @@
           id="chat-container"
           class="flex-1 bg-white overflow-y-auto custom-scrollbar p-4"
         >
-          <div id="messages" class="space-y-4">
-            <div class="flex items-start gap-2.5">
-              <div
-                class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center"
-              >
-                <i class="fas fa-robot text-indigo-600"></i>
-              </div>
-              <div
-                class="message-bubble bg-gray-100 rounded-lg p-4 text-gray-700"
-              >
-                Hello! I'm here to listen and support you. How are you feeling
-                today?
-              </div>
-            </div>
-          </div>
+          <div id="messages" class="space-y-4"></div>
         </div>
 
         <!-- Input Area -->
@@ -223,31 +168,116 @@
       </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+      // Simulated data object
+      const chatData = {
+        user: {
+          name: "sasmita",
+          initials: "SD",
+          status: "Premium Member",
+        },
+        chats: [
+          {
+            id: 1,
+            title: "Current",
+            messages: [
+              {
+                sender: "bot",
+                content:
+                  "Hello! I'm here to listen and support you. How are you feeling today?",
+              },
+            ],
+          },
+          {
+            id: 2,
+            title: "Evening Check-in",
+            messages: [
+              {
+                sender: "bot",
+                content: "How was your day?",
+              },
+              {
+                sender: "user",
+                content: "It was good, just a bit tired.",
+              },
+            ],
+          },
+          {
+            id: 3,
+            title: "Morning Reflection",
+            messages: [
+              {
+                sender: "bot",
+                content: "Good morning! Ready for a new day?",
+              },
+              {
+                sender: "user",
+                content: "Yes, feeling refreshed!",
+              },
+            ],
+          },
+        ],
+      };
+
       const messageInput = document.getElementById("message-input");
       const chatForm = document.getElementById("chat-form");
       const messagesContainer = document.getElementById("messages");
+      const chatTabsContainer = document.getElementById("chat-tabs");
+      const chatTitle = document.getElementById("chat-title");
+      const userName = document.getElementById("user-name");
+      const userInitials = document.getElementById("user-initials");
+      const userStatus = document.getElementById("user-status");
 
-      // Auto-resize textarea
-      messageInput.addEventListener("input", function () {
-        this.style.height = "auto";
-        this.style.height = Math.min(this.scrollHeight, 150) + "px";
-      });
+      // Initialize the chat with the first chat session
+      let currentChat = chatData.chats[0];
 
-      // Handle form submission
-      chatForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const message = messageInput.value.trim();
-        if (!message) return;
+      // Function to update the user profile section
+      function updateUserProfile() {
+        userName.textContent = chatData.user.name;
+        userInitials.textContent = chatData.user.initials;
+        userStatus.textContent = chatData.user.status;
+      }
 
-        // Add user message
-        addMessage(message, "user");
+      // Function to render chat tabs
+      function renderChatTabs() {
+        chatTabsContainer.innerHTML = "";
+        chatData.chats.forEach((chat) => {
+          const tab = document.createElement("div");
+          tab.className = `chat-tab p-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 ${
+            chat.id === currentChat.id ? "active" : ""
+          }`;
+          tab.innerHTML = `
+            <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-comment text-indigo-600"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-medium text-gray-900 truncate">${chat.title}</div>
+              <div class="text-xs text-gray-500">${chat.messages.length} messages</div>
+            </div>
+          `;
+          tab.addEventListener("click", () => switchChat(chat.id));
+          chatTabsContainer.appendChild(tab);
+        });
+      }
 
-        // Clear input
-        messageInput.value = "";
-        messageInput.style.height = "auto";
-      });
+      // Function to switch between chats
+      function switchChat(chatId) {
+        currentChat = chatData.chats.find((chat) => chat.id === chatId);
+        chatTitle.textContent = currentChat.title;
+        renderMessages();
+        renderChatTabs();
+      }
 
+      // Function to render messages
+      function renderMessages() {
+        messagesContainer.innerHTML = "";
+        currentChat.messages.forEach((message) => {
+          addMessage(message.content, message.sender);
+        });
+      }
+
+      // Function to add a new message
       function addMessage(content, sender) {
         const messageElement = document.createElement("div");
         messageElement.className =
@@ -282,28 +312,48 @@
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
 
-      // Handle chat tab switching
-      const chatTabs = document.querySelectorAll(".chat-tab");
-      chatTabs.forEach((tab) => {
-        tab.addEventListener("click", function () {
-          // Remove active class from all tabs
-          chatTabs.forEach((t) => t.classList.remove("active"));
-          // Add active class to clicked tab
-          this.classList.add("active");
-        });
+      // Function to start a new chat
+      function startNewChat() {
+        const newChat = {
+          id: chatData.chats.length + 1,
+          title: "New Chat",
+          messages: [
+            {
+              sender: "bot",
+              content:
+                "Hello! I'm here to listen and support you. How are you feeling today?",
+            },
+          ],
+        };
+        chatData.chats.push(newChat);
+        switchChat(newChat.id);
+      }
+
+      // Handle form submission
+      chatForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        if (!message) return;
+
+        // Add user message
+        currentChat.messages.push({ sender: "user", content: message });
+        addMessage(message, "user");
+
+        // Clear input
+        messageInput.value = "";
+        messageInput.style.height = "auto";
       });
 
-      function startNewChat() {
-        // Clear messages
-        messagesContainer.innerHTML = "";
-        // Add initial bot message
-        addMessage(
-          "Hello! I'm here to listen and support you. How are you feeling today?",
-          "bot"
-        );
-        // Update header
-        document.querySelector("h1").textContent = "New Chat";
-      }
+      // Auto-resize textarea
+      messageInput.addEventListener("input", function () {
+        this.style.height = "auto";
+        this.style.height = Math.min(this.scrollHeight, 150) + "px";
+      });
+
+      // Initialize the chat
+      updateUserProfile();
+      renderChatTabs();
+      renderMessages();
     </script>
   </body>
 </html>
