@@ -1,8 +1,9 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { User } from "../../database/schema/userSchema";
+import { User } from "../database/schemas/userSchema";
 
-passport.use(
+export default passport.use(
+	"google",
 	new GoogleStrategy(
 		{
 			clientID: process.env.OAUTH_CLIENT_ID_GOOGLE,
@@ -30,10 +31,13 @@ passport.use(
 		},
 	),
 );
-passport.serializeUser((user, done) => {
-	done(null, user);
-});
 
 passport.serializeUser((user, done) => {
-	done(null, user);
+	done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+	User.findById(id, (err, user) => {
+		done(err, user);
+	});
 });
