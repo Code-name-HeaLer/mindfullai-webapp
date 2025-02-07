@@ -7,6 +7,7 @@ import { authRouter } from "./router/auth";
 import { journalRouter } from "./router/journal";
 import passport from "passport";
 import path from "path";
+import { mongooseRun } from "./database/mongoose";
 
 const http = express();
 export const router = express.Router();
@@ -26,3 +27,4 @@ http.use(journalRouter);
 http.listen(process.env.PORT_HTTP, () => {
 	console.log(`Http Server connected on port: ${process.env.PORT_HTTP}`);
 });
+mongooseRun();

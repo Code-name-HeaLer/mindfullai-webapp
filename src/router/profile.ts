@@ -1,8 +1,13 @@
 import { Router } from "express";
 
-export const profileRouter = Router()
+export const profileRouter = Router();
 
 profileRouter.get("/profile", (req, res) => {
-    res.sendFile(`${process.cwd()}/public/pages/profile.html`);
-	console.log("Profile route accessed")
+	if (req.isAuthenticated()) {
+		res.sendFile(`${process.cwd()}/public/pages/profile.html`);
+	}
+	res.redirect("/");
 });
+// profileRouter.get("/user",(req,res)=>{
+
+// })

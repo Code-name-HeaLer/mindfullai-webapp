@@ -19,12 +19,13 @@ export default passport.use(
 						googleId: profile.id,
 						email: profile.emails[0].value,
 						name: profile.displayName,
+						avatar: profile.picture,
 					});
 
 					await user.save();
 				}
 
-				done(null, user);
+				done(null, profile);
 			} catch (err) {
 				done(err, null);
 			}
@@ -33,11 +34,13 @@ export default passport.use(
 );
 
 passport.serializeUser((user, done) => {
-	done(null, user._id);
+	done(null, user.id);
+	done(null, user);
 });
 
 passport.deserializeUser((id, done) => {
 	User.findById(id, (err, user) => {
 		done(err, user);
 	});
+	done(null, null);
 });
