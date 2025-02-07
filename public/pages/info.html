@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindfulAI - User Information</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css" />
+    <style>
+      .popup {
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm">
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center"
+          >
+            <svg
+              class="w-6 h-6 text-indigo-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+              />
+            </svg>
+          </div>
+          <h1 class="text-xl font-semibold text-gray-800">MindfulAI</h1>
+        </div>
+        <button
+          class="bg-indigo-600 text-white rounded-xl px-6 py-2 hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-200 transition-colors duration-200"
+        >
+          Save & Continue
+        </button>
+      </div>
+    </nav>
+
+    <!-- Information Form Section -->
+    <section class="container mx-auto px-4 py-16">
+      <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">
+        Tell Us About Yourself
+      </h1>
+      <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-sm">
+        <!-- Name -->
+        <div class="mb-6">
+          <label for="name" class="block text-gray-700 font-medium mb-2">
+            Full Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            placeholder="John Doe"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:outline-none"
+          />
+        </div>
+
+        <!-- Religion -->
+        <div class="mb-6">
+          <label for="religion" class="block text-gray-700 font-medium mb-2">
+            Religion
+          </label>
+          <input
+            type="text"
+            id="religion"
+            placeholder="Your Religion"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:outline-none"
+          />
+        </div>
+
+        <!-- Ethnicity -->
+        <div class="mb-6">
+          <label for="ethnicity" class="block text-gray-700 font-medium mb-2">
+            Ethnicity
+          </label>
+          <input
+            type="text"
+            id="ethnicity"
+            placeholder="Your Ethnicity"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:outline-none"
+          />
+        </div>
+
+        <!-- Country -->
+        <div class="mb-6">
+          <label for="country" class="block text-gray-700 font-medium mb-2">
+            Country
+          </label>
+          <select
+            id="country"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:outline-none"
+          >
+            <option value="">Select Country</option>
+            <option value="USA">United States</option>
+            <option value="UK">United Kingdom</option>
+            <option value="Canada">Canada</option>
+            <option value="Australia">Australia</option>
+            <!-- Add more countries as needed -->
+          </select>
+        </div>
+
+        <!-- Loved Ones Emails -->
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2">
+            Loved Ones' Emails
+          </label>
+          <div id="email-container">
+            <div class="flex gap-2 mb-2">
+              <input
+                type="email"
+                placeholder="example@email.com"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:outline-none"
+              />
+              <button
+                type="button"
+                onclick="addEmailField()"
+                class="bg-indigo-600 text-white rounded-lg px-4 hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-200 transition-colors duration-200"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Fields -->
+        <div class="mb-6">
+          <label for="additional" class="block text-gray-700 font-medium mb-2">
+            Additional Information
+          </label>
+          <textarea
+            id="additional"
+            placeholder="Anything else you'd like us to know..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:outline-none"
+            rows="4"
+          ></textarea>
+        </div>
+
+        <!-- Save Button -->
+        <button
+          class="w-full bg-indigo-600 text-white rounded-xl px-6 py-3 hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-200 transition-colors duration-200"
+        >
+          Save & Continue
+        </button>
+      </div>
+    </section>
+
+    <script>
+      // Function to add new email input fields
+      function addEmailField() {
+        const emailContainer = document.getElementById("email-container");
+        const newEmailField = document.createElement("div");
+        newEmailField.classList.add("flex", "gap-2", "mb-2");
+        newEmailField.innerHTML = `
+          <input
+            type="email"
+            placeholder="example@email.com"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:outline-none"
+          />
+          <button
+            type="button"
+            onclick="removeEmailField(this)"
+            class="bg-red-600 text-white rounded-lg px-4 hover:bg-red-700 focus:ring-2 focus:ring-red-200 transition-colors duration-200"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+        `;
+        emailContainer.appendChild(newEmailField);
+      }
+
+      // Function to remove email input fields
+      function removeEmailField(button) {
+        const emailField = button.parentElement;
+        emailField.remove();
+      }
+    </script>
+  </body>
+</html>
