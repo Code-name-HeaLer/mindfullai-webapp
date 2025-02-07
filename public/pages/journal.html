@@ -14,7 +14,13 @@
     />
     <link rel="stylesheet" href="/css">
     <style>
-      /* Add all the CSS styles here */
+      body {
+        font-family: "Kalam", cursive;
+        background-color: #f9fafb;
+        margin: 0;
+        padding: 0;
+      }
+
       .notebook {
         perspective: 1000px;
         transform-style: preserve-3d;
@@ -43,9 +49,10 @@
         background-image: linear-gradient(#e1e1e1 1px, transparent 1px),
           linear-gradient(90deg, #f3a5a5 1px, transparent 1px);
         background-size: 100% 1.5rem, 3rem 100%;
-        background-position: 0 -1px;
+        background-position: 0 0;
         border-left: 2px solid #ff9999;
         margin-left: 3rem;
+        height: 100%;
       }
 
       .margin-line {
@@ -136,7 +143,7 @@
         width: 100px;
         height: 100px;
         border-radius: 50%;
-        background: rgba(240, 9, 9, 0.1);
+        background: rgba(139, 69, 19, 0.1);
         pointer-events: none;
       }
 
@@ -152,51 +159,55 @@
         transform: scale(0.8) rotate(45deg);
       }
 
-      .saved-journals-box {
+      .sidebar {
+        width: 250px;
+        background-color: #fff;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
         position: fixed;
-        top: 100px;
-        right: 20px;
-        width: 300px;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        padding: 16px;
-        max-height: 400px;
+        top: 0;
+        left: 0;
+        height: 100vh;
         overflow-y: auto;
       }
 
-      .saved-journals-box h3 {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 12px;
-        color: #2d3748;
+      .sidebar h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
       }
 
-      .saved-journal-item {
-        padding: 8px;
-        border-bottom: 1px solid #e2e8f0;
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .sidebar ul li {
+        margin-bottom: 0.5rem;
         cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 5px;
         transition: background 0.2s ease;
       }
 
-      .saved-journal-item:hover {
-        background: #f7fafc;
+      .sidebar ul li:hover {
+        background-color: #f3f4f6;
       }
 
-      .saved-journal-item:last-child {
-        border-bottom: none;
+      .mood-tracker {
+        margin-top: 1rem;
       }
 
-      .saved-journal-item h4 {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #4a5568;
+      .mood-tracker label {
+        display: block;
+        margin-bottom: 0.5rem;
       }
 
-      .saved-journal-item p {
-        font-size: 0.875rem;
-        color: #718096;
-        margin-top: 4px;
+      .mood-tracker select {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
       }
     </style>
   </head>
@@ -220,7 +231,6 @@
             <a href="/chat">AI Bot</a>
             <a href="/profile">Profile</a>
             <div
-              id="user-initials"
               class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-semibold"
             >
               JS
@@ -229,7 +239,26 @@
         </div>
       </div>
     </nav>
-    <div class="max-w-5xl mx-auto px-4 mt-5">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Saved Journals</h2>
+      <ul id="saved-journals">
+        <!-- Saved journals will be dynamically added here -->
+      </ul>
+      <div class="mood-tracker">
+        <label for="mood">Today's Mood:</label>
+        <select id="mood">
+          <option value="happy">😊 Happy</option>
+          <option value="sad">😢 Sad</option>
+          <option value="angry">😠 Angry</option>
+          <option value="neutral">😐 Neutral</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-5xl mx-auto px-4 mt-5 ml-[270px]">
       <!-- Header -->
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
@@ -289,102 +318,40 @@
       </div>
     </div>
 
-    <!-- Saved Journals Box -->
-    <div class="saved-journals-box">
-      <h3>Saved Journals</h3>
-      <div id="saved-journals-list"></div>
-    </div>
-
     <script>
-      // Simulated data object
-      const journalData = {
-        user: {
-          name: "sasmita",
-          initials: "SD",
-          status: "Member",
-        },
-        journal: {
-          title: "My Journal",
-          date: "monday, feb 8, 2025",
-          content: "Today was a great day! I learned a lot about mindfulness.",
-        },
-      };
-
-      // Function to update the UI with dynamic data
-      function updateJournalUI(data) {
-        // Update user profile
-        document.getElementById("user-initials").textContent =
-          data.user.initials;
-
-        // Update journal title
-        document.getElementById("journal-title").textContent =
-          data.journal.title;
-
-        // Update journal date
-        document.getElementById("journal-date").value = data.journal.date;
-
-        // Update journal content
-        document.getElementById("journal-content").value = data.journal.content;
+      // Get today's date in a nice format
+      function formatDate(date) {
+        const options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        };
+        return date.toLocaleDateString("en-US", options);
       }
 
-      // Function to save journal entry to local storage
-      function saveJournalEntry() {
-        const title = document.getElementById("journal-title").textContent;
-        const date = document.getElementById("journal-date").value;
-        const content = document.getElementById("journal-content").value;
+      // Set today's date
+      document.getElementById("journal-date").value = formatDate(new Date());
 
-        const entry = { title, date, content };
-
-        // Get existing entries from local storage
-        const savedEntries = JSON.parse(localStorage.getItem("journals")) || [];
-
-        // Add new entry
-        savedEntries.push(entry);
-
-        // Save back to local storage
-        localStorage.setItem("journals", JSON.stringify(savedEntries));
-
-        // Refresh saved journals list
-        displaySavedJournals();
-      }
-
-      // Function to display saved journals
-      function displaySavedJournals() {
-        const savedEntries = JSON.parse(localStorage.getItem("journals")) || [];
-        const savedJournalsList = document.getElementById("saved-journals-list");
-
-        // Clear existing list
-        savedJournalsList.innerHTML = "";
-
-        // Add each entry to the list
-        savedEntries.forEach((entry, index) => {
-          const journalItem = document.createElement("div");
-          journalItem.className = "saved-journal-item";
-          journalItem.innerHTML = `
-            <h4>${entry.title}</h4>
-            <p>${entry.date}</p>
-          `;
-          journalItem.addEventListener("click", () => loadJournalEntry(index));
-          savedJournalsList.appendChild(journalItem);
-        });
-      }
-
-      // Function to load a saved journal entry
-      function loadJournalEntry(index) {
-        const savedEntries = JSON.parse(localStorage.getItem("journals")) || [];
-        const entry = savedEntries[index];
-
-        // Update the UI with the selected entry
-        document.getElementById("journal-title").textContent = entry.title;
-        document.getElementById("journal-date").value = entry.date;
-        document.getElementById("journal-content").value = entry.content;
-      }
-
-      // Save button event listener
+      // Save functionality
       document
         .getElementById("save-button")
         .addEventListener("click", function () {
-          saveJournalEntry();
+          const journalContent = document.getElementById("journal-content").value;
+          const mood = document.getElementById("mood").value;
+          const date = formatDate(new Date());
+
+          const journalEntry = {
+            date,
+            content: journalContent,
+            mood,
+          };
+
+          // Save to local storage
+          let savedJournals =
+            JSON.parse(localStorage.getItem("journals")) || [];
+          savedJournals.push(journalEntry);
+          localStorage.setItem("journals", JSON.stringify(savedJournals));
 
           // Add save animation
           this.innerHTML = '<i class="fas fa-check mr-2"></i>Saved!';
@@ -394,18 +361,43 @@
             this.innerHTML = '<i class="fas fa-save mr-2"></i>Save Entry';
             this.style.backgroundColor = "#4F46E5";
           }, 2000);
+
+          // Update sidebar
+          updateSidebar();
         });
 
       // Auto-resize textarea
-      const textarea = document.querySelector(".journal-content");
+      const textarea = document.getElementById("journal-content");
       textarea.addEventListener("input", function () {
         this.style.height = "auto";
         this.style.height = this.scrollHeight + "px";
       });
 
-      // Initialize the journal
-      updateJournalUI(journalData);
-      displaySavedJournals();
+      // Update sidebar with saved journals
+      function updateSidebar() {
+        const savedJournals =
+          JSON.parse(localStorage.getItem("journals")) || [];
+        const sidebarList = document.getElementById("saved-journals");
+        sidebarList.innerHTML = savedJournals
+          .map(
+            (journal, index) =>
+              `<li onclick="loadJournal(${index})">${journal.date} - ${journal.mood}</li>`
+          )
+          .join("");
+      }
+
+      // Load a specific journal entry
+      function loadJournal(index) {
+        const savedJournals =
+          JSON.parse(localStorage.getItem("journals")) || [];
+        const journalEntry = savedJournals[index];
+        document.getElementById("journal-content").value = journalEntry.content;
+        document.getElementById("mood").value = journalEntry.mood;
+        document.getElementById("journal-date").value = journalEntry.date;
+      }
+
+      // Initialize sidebar on page load
+      updateSidebar();
     </script>
   </body>
 </html>
