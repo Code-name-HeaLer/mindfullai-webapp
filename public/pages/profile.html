@@ -28,6 +28,7 @@
             <a href="/journal">Journal</a>
             <div
               class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-semibold"
+              id="profileInitials"
             >
               JS
             </div>
@@ -42,7 +43,7 @@
       <div class="bg-white rounded-xl p-6 shadow-sm mb-6">
         <div class="flex items-start justify-between">
           <div>
-            <h1 class="text-2xl font-bold text-gray-900 mb-2">
+            <h1 class="text-2xl font-bold text-gray-900 mb-2" id="greeting">
               Good morning, John Smith
             </h1>
             <p class="text-gray-600">
@@ -50,7 +51,7 @@
             </p>
           </div>
           <div class="bg-indigo-100 text-indigo-600 px-4 py-2 rounded-lg">
-            <p class="font-semibold">Streak: 7 days 🔥</p>
+            <p class="font-semibold" id="streak">Streak: 7 days 🔥</p>
           </div>
         </div>
       </div>
@@ -66,7 +67,9 @@
             </div>
             <div>
               <p class="text-sm text-gray-600">Chat Sessions</p>
-              <p class="text-2xl font-bold text-gray-900">28</p>
+              <p class="text-2xl font-bold text-gray-900" id="chatSessions">
+                28
+              </p>
             </div>
           </div>
         </div>
@@ -79,7 +82,9 @@
             </div>
             <div>
               <p class="text-sm text-gray-600">Minutes Mindful</p>
-              <p class="text-2xl font-bold text-gray-900">345</p>
+              <p class="text-2xl font-bold text-gray-900" id="minutesMindful">
+                345
+              </p>
             </div>
           </div>
         </div>
@@ -92,7 +97,9 @@
             </div>
             <div>
               <p class="text-sm text-gray-600">Journal Entries</p>
-              <p class="text-2xl font-bold text-gray-900">12</p>
+              <p class="text-2xl font-bold text-gray-900" id="journalEntries">
+                12
+              </p>
             </div>
           </div>
         </div>
@@ -105,7 +112,9 @@
             </div>
             <div>
               <p class="text-sm text-gray-600">Achievements</p>
-              <p class="text-2xl font-bold text-gray-900">5</p>
+              <p class="text-2xl font-bold text-gray-900" id="achievements">
+                5
+              </p>
             </div>
           </div>
         </div>
@@ -126,73 +135,16 @@
           <h2 class="text-xl font-semibold text-gray-900 mb-4">
             Recent Activities
           </h2>
-          <div class="space-y-4">
-            <div class="flex items-center gap-4">
-              <div
-                class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center"
-              >
-                <i class="fas fa-comments text-indigo-600"></i>
-              </div>
-              <div>
-                <p class="font-medium text-gray-900">Completed chat session</p>
-                <p class="text-sm text-gray-600">Today at 10:30 AM</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-4">
-              <div
-                class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center"
-              >
-                <i class="fas fa-journal-whills text-indigo-600"></i>
-              </div>
-              <div>
-                <p class="font-medium text-gray-900">Wrote journal entry</p>
-                <p class="text-sm text-gray-600">Yesterday at 8:15 PM</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-4">
-              <div
-                class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center"
-              >
-                <i class="fas fa-medal text-indigo-600"></i>
-              </div>
-              <div>
-                <p class="font-medium text-gray-900">
-                  Earned "Week Streak" badge
-                </p>
-                <p class="text-sm text-gray-600">2 days ago</p>
-              </div>
-            </div>
+          <div class="space-y-4" id="recentActivities">
+            <!-- Recent activities will be dynamically inserted here -->
           </div>
         </div>
 
         <!-- Goals Section -->
         <div class="bg-white rounded-xl p-6 shadow-sm">
           <h2 class="text-xl font-semibold text-gray-900 mb-4">Your Goals</h2>
-          <div class="space-y-4">
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <p class="text-gray-700">Daily Meditation</p>
-                <p class="text-sm text-indigo-600">15/20 mins</p>
-              </div>
-              <div class="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  class="bg-indigo-600 h-2 rounded-full"
-                  style="width: 75%"
-                ></div>
-              </div>
-            </div>
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <p class="text-gray-700">Weekly Journal Entries</p>
-                <p class="text-sm text-indigo-600">3/5 entries</p>
-              </div>
-              <div class="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  class="bg-indigo-600 h-2 rounded-full"
-                  style="width: 60%"
-                ></div>
-              </div>
-            </div>
+          <div class="space-y-4" id="goals">
+            <!-- Goals will be dynamically inserted here -->
           </div>
         </div>
 
@@ -201,43 +153,182 @@
           <h2 class="text-xl font-semibold text-gray-900 mb-4">
             Recent Achievements
           </h2>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="p-4 bg-indigo-50 rounded-lg text-center">
-              <div
-                class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-2"
-              >
-                <i class="fas fa-fire text-indigo-600 text-xl"></i>
-              </div>
-              <p class="font-medium text-gray-900">7-Day Streak</p>
-            </div>
-            <div class="p-4 bg-indigo-50 rounded-lg text-center">
-              <div
-                class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-2"
-              >
-                <i class="fas fa-book text-indigo-600 text-xl"></i>
-              </div>
-              <p class="font-medium text-gray-900">Journal Master</p>
-            </div>
+          <div class="grid grid-cols-2 gap-4" id="achievementsList">
+            <!-- Achievements will be dynamically inserted here -->
           </div>
         </div>
       </div>
     </div>
 
     <script>
+      // Mock data object
+      const profileData = {
+        name: "Swagat Nanda 123",
+        streak: 7,
+        chatSessions: 31,
+        minutesMindful: 345,
+        journalEntries: 12,
+        achievements: 5,
+        recentActivities: [
+          {
+            icon: "fas fa-comments",
+            title: "Completed chat session",
+            time: "Today at 10:31 AM",
+          },
+          {
+            icon: "fas fa-journal-whills",
+            title: "Wrote journal entry",
+            time: "Yesterday at 8:15 PM",
+          },
+          {
+            icon: "fas fa-medal",
+            title: 'Earned "Week Streak" badge',
+            time: "2 days ago",
+          },
+        ],
+        goals: [
+          {
+            title: "Daily Meditation",
+            progress: "15/20 mins",
+            percentage: 75,
+          },
+          {
+            title: "Weekly Journal Entries",
+            progress: "3/5 entries",
+            percentage: 60,
+          },
+        ],
+        achievementsList: [
+          {
+            icon: "fas fa-fire",
+            title: "7-Day Streak",
+          },
+          {
+            icon: "fas fa-book",
+            title: "Journal Master",
+          },
+        ],
+      };
+
       // Function to update greeting based on time of day
       function updateGreeting() {
         const hour = new Date().getHours();
-        const greeting = document.querySelector("h1");
+        const greeting = document.getElementById("greeting");
         let timeOfDay = "morning";
 
         if (hour >= 12 && hour < 17) timeOfDay = "afternoon";
         else if (hour >= 17) timeOfDay = "evening";
 
-        greeting.textContent = `Good ${timeOfDay}, John Smith`;
+        greeting.textContent = `Good ${timeOfDay}, ${profileData.name}`;
       }
 
-      // Update greeting on load
-      updateGreeting();
+      // Function to update profile initials
+      function updateProfileInitials() {
+        const initials = profileData.name
+          .split(" ")
+          .map((name) => name[0])
+          .join("");
+        document.getElementById("profileInitials").textContent = initials;
+      }
+
+      // Function to update stats
+      function updateStats() {
+        document.getElementById(
+          "streak"
+        ).textContent = `Streak: ${profileData.streak} days 🔥`;
+        document.getElementById("chatSessions").textContent =
+          profileData.chatSessions;
+        document.getElementById("minutesMindful").textContent =
+          profileData.minutesMindful;
+        document.getElementById("journalEntries").textContent =
+          profileData.journalEntries;
+        document.getElementById("achievements").textContent =
+          profileData.achievements;
+      }
+
+      // Function to update recent activities
+      function updateRecentActivities() {
+        const recentActivitiesContainer =
+          document.getElementById("recentActivities");
+        recentActivitiesContainer.innerHTML = profileData.recentActivities
+          .map(
+            (activity) => `
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
+                  <i class="${activity.icon} text-indigo-600"></i>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-900">${activity.title}</p>
+                  <p class="text-sm text-gray-600">${activity.time}</p>
+                </div>
+              </div>
+            `
+          )
+          .join("");
+      }
+
+      // Function to update goals
+      function updateGoals() {
+        const goalsContainer = document.getElementById("goals");
+        goalsContainer.innerHTML = profileData.goals
+          .map(
+            (goal) => `
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <p class="text-gray-700">${goal.title}</p>
+                  <p class="text-sm text-indigo-600">${goal.progress}</p>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="bg-indigo-600 h-2 rounded-full" style="width: ${goal.percentage}%"></div>
+                </div>
+              </div>
+            `
+          )
+          .join("");
+      }
+
+      // Function to update achievements
+      function updateAchievements() {
+        const achievementsContainer =
+          document.getElementById("achievementsList");
+        achievementsContainer.innerHTML = profileData.achievementsList
+          .map(
+            (achievement) => `
+              <div class="p-4 bg-indigo-50 rounded-lg text-center">
+                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <i class="${achievement.icon} text-indigo-600 text-xl"></i>
+                </div>
+                <p class="font-medium text-gray-900">${achievement.title}</p>
+              </div>
+            `
+          )
+          .join("");
+      }
+
+      // Update all sections on load
+      function updateProfile() {
+        updateGreeting();
+        updateProfileInitials();
+        updateStats();
+        updateRecentActivities();
+        updateGoals();
+        updateAchievements();
+      }
+
+      // Call the update function on page load
+      updateProfile();
+
+      // Example of using Axios to fetch data (replace with actual API call)
+      /*
+      axios.get('/api/profile')
+        .then(response => {
+          profileData = response.data;
+          updateProfile();
+        })
+        .catch(error => {
+          console.error('Error fetching profile data:', error);
+        });
+      */
     </script>
   </body>
 </html>
