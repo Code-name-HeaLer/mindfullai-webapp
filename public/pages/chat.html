@@ -160,7 +160,7 @@
 			// Fetch chats from the backend on page load
 			async function fetchChats() {
 				try {
-					const response = await axios.get("/api/chats"); // Update this URL based on your backend API
+					const response = await axios.get("/chats"); // Update this URL based on your backend API
 					const chats = response.data;
 					chatData.chats = chats; // Update chat data
 
@@ -196,7 +196,7 @@
 			// Function to create a new chat and send it to the backend
 			async function startNewChat() {
 				try {
-					const response = await axios.post("/api/chats", {
+					const response = await axios.post("/chats", {
 						title: "New Chat",
 					});
 					const newChat = response.data;
@@ -210,7 +210,7 @@
 			// Function to send a new message to the backend
 			async function sendMessage(message) {
 				try {
-					await axios.post(`/api/chats/${currentChat.id}/messages`, {
+					await axios.post(`/chats/${currentChat.id}/messages`, {
 						message,
 						sender: "user",
 					});
