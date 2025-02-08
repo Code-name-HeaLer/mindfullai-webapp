@@ -1,403 +1,408 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MindfulAI Journal</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400&family=Homemade+Apple&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css">
-    <style>
-      body {
-        font-family: "Kalam", cursive;
-        background-color: #f9fafb;
-        margin: 0;
-        padding: 0;
-      }
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>MindfulAI Journal</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400&family=Homemade+Apple&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="/css" />
+		<style>
+			body {
+				font-family: "Kalam", cursive;
+				background-color: #f9fafb;
+				margin: 0;
+				padding: 0;
+			}
 
-      .notebook {
-        perspective: 1000px;
-        transform-style: preserve-3d;
-        transition: transform 1s ease;
-      }
+			.notebook {
+				perspective: 1000px;
+				transform-style: preserve-3d;
+				transition: transform 1s ease;
+			}
 
-      .notebook-pages {
-        position: relative;
-        transform-origin: left;
-        animation: openBook 1.5s ease forwards;
-        background: linear-gradient(to right, #f1f1f1 0%, #fff 100%);
-        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2),
-          inset -10px 0 20px rgba(0, 0, 0, 0.05);
-      }
+			.notebook-pages {
+				position: relative;
+				transform-origin: left;
+				animation: openBook 1.5s ease forwards;
+				background: linear-gradient(to right, #f1f1f1 0%, #fff 100%);
+				box-shadow:
+					5px 5px 20px rgba(0, 0, 0, 0.2),
+					inset -10px 0 20px rgba(0, 0, 0, 0.05);
+			}
 
-      @keyframes openBook {
-        0% {
-          transform: rotateY(90deg);
-        }
-        100% {
-          transform: rotateY(0deg);
-        }
-      }
+			@keyframes openBook {
+				0% {
+					transform: rotateY(90deg);
+				}
+				100% {
+					transform: rotateY(0deg);
+				}
+			}
 
-      .page-lines {
-        background-image: linear-gradient(#e1e1e1 1px, transparent 1px),
-          linear-gradient(90deg, #f3a5a5 1px, transparent 1px);
-        background-size: 100% 1.5rem, 3rem 100%;
-        background-position: 0 0;
-        border-left: 2px solid #ff9999;
-        margin-left: 3rem;
-        height: 100%;
-      }
+			.page-lines {
+				background-image: linear-gradient(#e1e1e1 1px, transparent 1px),
+					linear-gradient(90deg, #f3a5a5 1px, transparent 1px);
+				background-size:
+					100% 1.5rem,
+					3rem 100%;
+				background-position: 0 0;
+				border-left: 2px solid #ff9999;
+				margin-left: 3rem;
+				height: 100%;
+			}
 
-      .margin-line {
-        position: absolute;
-        left: 2.5rem;
-        top: 0;
-        bottom: 0;
-        width: 1px;
-        background-color: #ff9999;
-      }
+			.margin-line {
+				position: absolute;
+				left: 2.5rem;
+				top: 0;
+				bottom: 0;
+				width: 1px;
+				background-color: #ff9999;
+			}
 
-      .page-binding {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3rem;
-        background: linear-gradient(to right, #d4d4d4, #e5e5e5);
-        border-right: 1px solid #ccc;
-        box-shadow: inset -2px 0 5px rgba(0, 0, 0, 0.1),
-          2px 0 5px rgba(0, 0, 0, 0.05);
-      }
+			.page-binding {
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				width: 3rem;
+				background: linear-gradient(to right, #d4d4d4, #e5e5e5);
+				border-right: 1px solid #ccc;
+				box-shadow:
+					inset -2px 0 5px rgba(0, 0, 0, 0.1),
+					2px 0 5px rgba(0, 0, 0, 0.05);
+			}
 
-      .binding-rings {
-        position: absolute;
-        left: 0.5rem;
-        width: 0.5rem;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-      }
+			.binding-rings {
+				position: absolute;
+				left: 0.5rem;
+				width: 0.5rem;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+			}
 
-      .ring {
-        width: 1.5rem;
-        height: 1.5rem;
-        background: linear-gradient(145deg, #8e8e8e, #696969);
-        border-radius: 50%;
-        box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.3),
-          inset -2px -2px 5px rgba(0, 0, 0, 0.3);
-      }
+			.ring {
+				width: 1.5rem;
+				height: 1.5rem;
+				background: linear-gradient(145deg, #8e8e8e, #696969);
+				border-radius: 50%;
+				box-shadow:
+					inset 2px 2px 5px rgba(255, 255, 255, 0.3),
+					inset -2px -2px 5px rgba(0, 0, 0, 0.3);
+			}
 
-      .journal-content {
-        font-family: "Kalam", cursive;
-        font-size: 1.2rem;
-        line-height: 1.5rem;
-        color: #2d3748;
-        background: transparent;
-        resize: none;
-        border: none;
-        width: 100%;
-        height: 100%;
-        padding: 1.5rem 2rem;
-        outline: none;
-      }
+			.journal-content {
+				font-family: "Kalam", cursive;
+				font-size: 1.2rem;
+				line-height: 1.5rem;
+				color: #2d3748;
+				background: transparent;
+				resize: none;
+				border: none;
+				width: 100%;
+				height: 100%;
+				padding: 1.5rem 2rem;
+				outline: none;
+			}
 
-      .date-field {
-        font-family: "Homemade Apple", cursive;
-        font-size: 1rem;
-        color: #4a5568;
-        border: none;
-        background: transparent;
-        padding: 0.5rem;
-        outline: none;
-        width: 200px;
-      }
+			.date-field {
+				font-family: "Homemade Apple", cursive;
+				font-size: 1rem;
+				color: #4a5568;
+				border: none;
+				background: transparent;
+				padding: 0.5rem;
+				outline: none;
+				width: 200px;
+			}
 
-      .save-button {
-        font-family: "Kalam", cursive;
-        background-color: #4f46e5;
-        color: white;
-        border: none;
-        padding: 0.5rem 1.5rem;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-      }
+			.save-button {
+				font-family: "Kalam", cursive;
+				background-color: #4f46e5;
+				color: white;
+				border: none;
+				padding: 0.5rem 1.5rem;
+				border-radius: 20px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+			}
 
-      .save-button:hover {
-        background-color: #4338ca;
-        transform: translateY(-2px);
-        box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.15);
-      }
+			.save-button:hover {
+				background-color: #4338ca;
+				transform: translateY(-2px);
+				box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.15);
+			}
 
-      .coffee-stain {
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background: rgba(139, 69, 19, 0.1);
-        pointer-events: none;
-      }
+			.coffee-stain {
+				position: absolute;
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+				background: rgba(139, 69, 19, 0.1);
+				pointer-events: none;
+			}
 
-      .coffee-stain:nth-child(1) {
-        top: 20px;
-        right: 40px;
-        transform: scale(1.2);
-      }
+			.coffee-stain:nth-child(1) {
+				top: 20px;
+				right: 40px;
+				transform: scale(1.2);
+			}
 
-      .coffee-stain:nth-child(2) {
-        bottom: 60px;
-        left: 120px;
-        transform: scale(0.8) rotate(45deg);
-      }
+			.coffee-stain:nth-child(2) {
+				bottom: 60px;
+				left: 120px;
+				transform: scale(0.8) rotate(45deg);
+			}
 
-      .sidebar {
-        width: 250px;
-        background-color: #fff;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        padding: 1rem;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        overflow-y: auto;
-      }
+			.sidebar {
+				width: 250px;
+				background-color: #fff;
+				box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+				padding: 1rem;
+				position: fixed;
+				top: 0;
+				left: 0;
+				height: 100vh;
+				overflow-y: auto;
+			}
 
-      .sidebar h2 {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-      }
+			.sidebar h2 {
+				font-size: 1.5rem;
+				font-weight: bold;
+				margin-bottom: 1rem;
+			}
 
-      .sidebar ul {
-        list-style: none;
-        padding: 0;
-      }
+			.sidebar ul {
+				list-style: none;
+				padding: 0;
+			}
 
-      .sidebar ul li {
-        margin-bottom: 0.5rem;
-        cursor: pointer;
-        padding: 0.5rem;
-        border-radius: 5px;
-        transition: background 0.2s ease;
-      }
+			.sidebar ul li {
+				margin-bottom: 0.5rem;
+				cursor: pointer;
+				padding: 0.5rem;
+				border-radius: 5px;
+				transition: background 0.2s ease;
+			}
 
-      .sidebar ul li:hover {
-        background-color: #f3f4f6;
-      }
+			.sidebar ul li:hover {
+				background-color: #f3f4f6;
+			}
 
-      .mood-tracker {
-        margin-top: 1rem;
-      }
+			.mood-tracker {
+				margin-top: 1rem;
+			}
 
-      .mood-tracker label {
-        display: block;
-        margin-bottom: 0.5rem;
-      }
+			.mood-tracker label {
+				display: block;
+				margin-bottom: 0.5rem;
+			}
 
-      .mood-tracker select {
-        width: 100%;
-        padding: 0.5rem;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-      }
-    </style>
-  </head>
-  <body class="bg-gray-50 min-h-screen">
-    <!-- Navbar -->
-    <nav class="bg-white shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-          <div class="flex items-center gap-2">
-            <div
-              class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center"
-            >
-              <i class="fas fa-brain text-indigo-600 text-xl"></i>
-            </div>
-            <span class="text-xl font-semibold text-gray-800">MindfulAI</span>
-          </div>
-          <div class="flex items-center gap-4">
-            <button class="text-gray-600 hover:text-gray-800">
-              <i class="fas fa-cog text-xl"></i>
-            </button>
-            <a href="/chat">AI Bot</a>
-            <a href="/profile">Profile</a>
-            <div
-              class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-semibold"
-            >
-              JS
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+			.mood-tracker select {
+				width: 100%;
+				padding: 0.5rem;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+			}
+		</style>
+	</head>
+	<body class="bg-gray-50 min-h-screen">
+		<!-- Navbar -->
+		<nav class="bg-white shadow-sm">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="flex justify-between h-16 items-center">
+					<div class="flex items-center gap-2">
+						<div
+							class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center"
+						>
+							<i class="fas fa-brain text-indigo-600 text-xl"></i>
+						</div>
+						<span class="text-xl font-semibold text-gray-800"
+							>MindfulAI</span
+						>
+					</div>
+					<div class="flex items-center gap-4">
+						<button class="text-gray-600 hover:text-gray-800">
+							<i class="fas fa-cog text-xl"></i>
+						</button>
+						<a href="/chat">AI Bot</a>
+						<a href="/profile">Profile</a>
+						<div
+							class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-semibold"
+						>
+							JS
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <h2>Saved Journals</h2>
-      <ul id="saved-journals">
-        <!-- Saved journals will be dynamically added here -->
-      </ul>
-      <div class="mood-tracker">
-        <label for="mood">Today's Mood:</label>
-        <select id="mood">
-          <option value="happy">😊 Happy</option>
-          <option value="sad">😢 Sad</option>
-          <option value="angry">😠 Angry</option>
-          <option value="neutral">😐 Neutral</option>
-        </select>
-      </div>
-    </div>
+		<!-- Sidebar -->
+		<div class="sidebar">
+			<h2>Saved Journals</h2>
+			<ul id="saved-journals">
+				<!-- Saved journals will be dynamically added here -->
+			</ul>
+			<div class="mood-tracker">
+				<label for="mood">Today's Mood:</label>
+				<select id="mood">
+					<option value="happy">😊 Happy</option>
+					<option value="sad">😢 Sad</option>
+					<option value="angry">😠 Angry</option>
+					<option value="neutral">😐 Neutral</option>
+				</select>
+			</div>
+		</div>
 
-    <!-- Main Content -->
-    <div class="max-w-5xl mx-auto px-4 mt-5 ml-[270px]">
-      <!-- Header -->
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center"
-          >
-            <i class="fas fa-book text-indigo-600 text-xl"></i>
-          </div>
-          <h1 id="journal-title" class="text-2xl font-semibold text-gray-800">
-            My Journal
-          </h1>
-        </div>
-        <button class="save-button" id="save-button">
-          <i class="fas fa-save mr-2"></i>Save Entry
-        </button>
-      </div>
+		<!-- Main Content -->
+		<div class="max-w-5xl mx-auto px-4 mt-5 ml-[270px]">
+			<!-- Header -->
+			<div class="flex items-center justify-between mb-8">
+				<div class="flex items-center gap-3">
+					<div
+						class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center"
+					>
+						<i class="fas fa-book text-indigo-600 text-xl"></i>
+					</div>
+					<h1
+						id="journal-title"
+						class="text-2xl font-semibold text-gray-800"
+					>
+						My Journal
+					</h1>
+				</div>
+				<button class="save-button" id="save-button">
+					<i class="fas fa-save mr-2"></i>Save Entry
+				</button>
+			</div>
 
-      <!-- Notebook -->
-      <div class="notebook">
-        <div class="notebook-pages rounded-lg min-h-[800px] relative bg-white">
-          <!-- Decorative coffee stains -->
-          <div class="coffee-stain"></div>
-          <div class="coffee-stain"></div>
+			<!-- Notebook -->
+			<div class="notebook">
+				<div
+					class="notebook-pages rounded-lg min-h-[800px] relative bg-white"
+				>
+					<!-- Decorative coffee stains -->
+					<div class="coffee-stain"></div>
+					<div class="coffee-stain"></div>
 
-          <!-- Binding decoration -->
-          <div class="page-binding">
-            <div class="binding-rings">
-              <div class="ring"></div>
-              <div class="ring"></div>
-              <div class="ring"></div>
-              <div class="ring"></div>
-              <div class="ring"></div>
-            </div>
-          </div>
+					<!-- Binding decoration -->
+					<div class="page-binding">
+						<div class="binding-rings">
+							<div class="ring"></div>
+							<div class="ring"></div>
+							<div class="ring"></div>
+							<div class="ring"></div>
+							<div class="ring"></div>
+						</div>
+					</div>
 
-          <!-- Main content area -->
-          <div class="page-lines h-full">
-            <div class="margin-line"></div>
+					<!-- Main content area -->
+					<div class="page-lines h-full">
+						<div class="margin-line"></div>
 
-            <!-- Date field -->
-            <input
-              id="journal-date"
-              type="text"
-              class="date-field ml-8 mt-4"
-              value=""
-              readonly
-            />
+						<!-- Date field -->
+						<input
+							id="journal-date"
+							type="text"
+							class="date-field ml-8 mt-4"
+							value=""
+							readonly
+						/>
 
-            <!-- Journal content -->
-            <textarea
-              id="journal-content"
-              class="journal-content"
-              placeholder="Dear Diary..."
-            ></textarea>
-          </div>
-        </div>
-      </div>
-    </div>
+						<!-- Journal content -->
+						<textarea
+							id="journal-content"
+							class="journal-content"
+							placeholder="Dear Diary..."
+						></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <script>
-      // Get today's date in a nice format
-      function formatDate(date) {
-        const options = {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        };
-        return date.toLocaleDateString("en-US", options);
-      }
+		<script>
+			// Save functionality
+			document
+				.getElementById("save-button")
+				.addEventListener("click", async function () {
+					const journalContent =
+						document.getElementById("journal-content").value;
+					const mood = document.getElementById("mood").value;
+					const date = document.getElementById("journal-date").value;
 
-      // Set today's date
-      document.getElementById("journal-date").value = formatDate(new Date());
+					const journalEntry = {
+						date,
+						content: journalContent,
+						mood,
+					};
 
-      // Save functionality
-      document
-        .getElementById("save-button")
-        .addEventListener("click", function () {
-          const journalContent = document.getElementById("journal-content").value;
-          const mood = document.getElementById("mood").value;
-          const date = formatDate(new Date());
+					try {
+						const response = await fetch("/journal/entry", {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify(journalEntry),
+						});
+						const result = await response.json();
+						if (result.message === "Journal entry saved") {
+							// Add save animation
+							this.innerHTML =
+								'<i class="fas fa-check mr-2"></i>Saved!';
+							this.style.backgroundColor = "#059669";
 
-          const journalEntry = {
-            date,
-            content: journalContent,
-            mood,
-          };
+							setTimeout(() => {
+								this.innerHTML =
+									'<i class="fas fa-save mr-2"></i>Save Entry';
+								this.style.backgroundColor = "#4F46E5";
+							}, 2000);
+							updateSidebar();
+						} else {
+							alert("Failed to save journal entry");
+						}
+					} catch (error) {
+						console.error("Error:", error);
+					}
+				});
 
-          // Save to local storage
-          let savedJournals =
-            JSON.parse(localStorage.getItem("journals")) || [];
-          savedJournals.push(journalEntry);
-          localStorage.setItem("journals", JSON.stringify(savedJournals));
+			// Update sidebar with saved journals
+			async function updateSidebar() {
+				const sidebarList = document.getElementById("saved-journals");
+				try {
+					const response = await fetch("/journal/entries");
+					const journals = await response.json();
+					sidebarList.innerHTML = journals
+						.map(
+							(journal, index) =>
+								`<li onclick="loadJournal(${index})">${journal.date} - ${journal.mood}</li>`,
+						)
+						.join("");
+				} catch (error) {
+					console.error("Error fetching journals:", error);
+				}
+			}
 
-          // Add save animation
-          this.innerHTML = '<i class="fas fa-check mr-2"></i>Saved!';
-          this.style.backgroundColor = "#059669";
-
-          setTimeout(() => {
-            this.innerHTML = '<i class="fas fa-save mr-2"></i>Save Entry';
-            this.style.backgroundColor = "#4F46E5";
-          }, 2000);
-
-          // Update sidebar
-          updateSidebar();
-        });
-
-      // Auto-resize textarea
-      const textarea = document.getElementById("journal-content");
-      textarea.addEventListener("input", function () {
-        this.style.height = "auto";
-        this.style.height = this.scrollHeight + "px";
-      });
-
-      // Update sidebar with saved journals
-      function updateSidebar() {
-        const savedJournals =
-          JSON.parse(localStorage.getItem("journals")) || [];
-        const sidebarList = document.getElementById("saved-journals");
-        sidebarList.innerHTML = savedJournals
-          .map(
-            (journal, index) =>
-              `<li onclick="loadJournal(${index})">${journal.date} - ${journal.mood}</li>`
-          )
-          .join("");
-      }
-
-      // Load a specific journal entry
-      function loadJournal(index) {
-        const savedJournals =
-          JSON.parse(localStorage.getItem("journals")) || [];
-        const journalEntry = savedJournals[index];
-        document.getElementById("journal-content").value = journalEntry.content;
-        document.getElementById("mood").value = journalEntry.mood;
-        document.getElementById("journal-date").value = journalEntry.date;
-      }
-
-      // Initialize sidebar on page load
-      updateSidebar();
-    </script>
-  </body>
+			// Load a specific journal entry
+			function loadJournal(index) {
+				const savedJournals =
+					JSON.parse(localStorage.getItem("journals")) || [];
+				const journalEntry = savedJournals[index];
+				document.getElementById("journal-content").value =
+					journalEntry.content;
+				document.getElementById("mood").value = journalEntry.mood;
+				document.getElementById("journal-date").value =
+					journalEntry.date;
+			}
+		</script>
+	</body>
 </html>
