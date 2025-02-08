@@ -13,9 +13,7 @@ authRouter.get(
 authRouter.get(
 	"/auth/google/redirect",
 	passport.authenticate("google", {
-		failureRedirect: "/login",
+		successRedirect: "/profile",
+		failureRedirect: "/",
 	}),
-	(req, res) => {
-		res.redirect("/profile");
-	},
 );

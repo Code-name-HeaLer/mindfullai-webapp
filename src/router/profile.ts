@@ -3,11 +3,6 @@ import { Router } from "express";
 export const profileRouter = Router();
 
 profileRouter.get("/profile", (req, res) => {
-	if (req.isAuthenticated()) {
-		res.sendFile(`${process.cwd()}/public/pages/profile.html`);
-	}
-	res.redirect("/");
+	res.sendFile(`${process.cwd()}/public/pages/profile.html`);
+	console.log("Profile loaded");
 });
-// profileRouter.get("/user",(req,res)=>{
-
-// })
